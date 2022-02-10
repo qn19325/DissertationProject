@@ -3,6 +3,15 @@ from torch import nn
 import torch.nn.functional as Func
 import torchvision
 from torchvision import transforms, datasets
+import wandb
+
+wandb.init(project="my-test-project", entity="qn19325")
+wandb.config = {
+  "learning_rate": 0.001,
+  "epochs": 3,
+  "batch_size": 10
+}
+
 
 training = datasets.MNIST("", train=True, download=True, transform=transforms.Compose([transforms.ToTensor()]))
 training_set = torch.utils.data.DataLoader(training, batch_size=10, shuffle=True)
@@ -23,15 +32,16 @@ class NeuralNetwork(nn.Module):
 network = NeuralNetwork()
 
 optimizer = torch.optim.SGD(network.parameters(), lr=0.001)
-loss = nn.CrossEntropyLoss()
+loss_func = nn.CrossEntropyLoss()
 
 for epoch in range(3): 
     for data in training_set:  # `data` is a batch of data
         X, y = data  # X i= features, y = targets (for current batch)
         network.zero_grad()  # sets gradients to 0 before calculation of loss
         output = network(X.view(-1,784))  # reshape the batch (28x28 -> 1x784)
-        l = loss(output, y)  # calculate the loss
-        l.backward()  # backprop through network
+        loss = loss_func(output, y)  # calculate the loss
+        loss.backward()  # backprop through network
         optimizer.step()  # update weights
-    print(f'loss: {l}')
+    wandb.log({"loss": loss})
+    print(f'loss: {loss}')
     

@@ -1,0 +1,19 @@
+Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to MNIST/raw/train-images-idx3-ubyte.gz
+Extracting MNIST/raw/train-images-idx3-ubyte.gz to MNIST/raw
+Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to MNIST/raw/train-labels-idx1-ubyte.gz
+100.0%
+102.8%
+100.0%
+112.7%
+Extracting MNIST/raw/train-labels-idx1-ubyte.gz to MNIST/raw
+Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to MNIST/raw/t10k-images-idx3-ubyte.gz
+Extracting MNIST/raw/t10k-images-idx3-ubyte.gz to MNIST/raw
+Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to MNIST/raw/t10k-labels-idx1-ubyte.gz
+Extracting MNIST/raw/t10k-labels-idx1-ubyte.gz to MNIST/raw
+loss: 1.846472978591919
+loss: 1.0070598125457764
+loss: 0.5820635557174683
