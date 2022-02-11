@@ -28,7 +28,6 @@ update = torch.optim.SGD(model.parameters(), lr=0.02)
 for epoch in range(50):
     # prediction = forward pass
     y_prediction = model(X)
-    print(y_prediction)
     # calculate MSE between prediction and actual value
     l = loss(Y, y_prediction)
     # gradients = backward pass
@@ -37,5 +36,5 @@ for epoch in range(50):
     update.step()
     # zero the gradients
     update.zero_grad()
-    if epoch % 1 == 0:
+    if epoch % 10 == 0:
         print(f'epoch {epoch}, loss = {l}')
