@@ -9,6 +9,13 @@ public class Speed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        speed.text = (int)player.velocity.magnitude * 3.6f + " km/h";
+        int currentSpeed = (int)player.velocity.magnitude;
+        if (currentSpeed < 100)
+        {
+            speed.text = "Speed: " + currentSpeed;
+        } else
+        {
+            speed.text = "Speed: " + currentSpeed + " (Max)";
+        }
     }
 }

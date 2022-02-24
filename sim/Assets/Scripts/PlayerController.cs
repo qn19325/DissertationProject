@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Vector3 startingPosition = new Vector3(0, 0.51f, 0);
     Rigidbody rBody;
-    public int speed = 0;
+    public float speed = 0;
     public SpawnManager spawnManager;
     
 
@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("space"))
+        if (Input.GetKeyDown("space") && speed < 100)
         {
-            speed++;
+            speed += 10;
         }
         rBody.velocity = new Vector3(0, 0, speed);
     }
