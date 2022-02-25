@@ -9,7 +9,7 @@ public class SpeedAgent : Agent
 {
     private Vector3 startingPosition = new Vector3(0, 0.51f, 0);
     Rigidbody rBody;
-    public int speed = 0;
+    public int currentSpeed = 0;
     public SpawnManager spawnManager;
 
     void Start() 
@@ -19,34 +19,46 @@ public class SpeedAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        
+
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(rBody.velocity);
+        // Agent velocity
+        sensor.AddObservation(rBody.velocity.z);
     }
 
     public override void OnActionReceived(ActionBuffers actions) 
     {
-        int zSpeed = actions.DiscreteActions[0];
+        int speed = actions.DiscreteActions[0];
+        int zSpeed = 0;
+        if (speed == 0) zSpeed = 0;
+        if (speed == 1) zSpeed = 10;
+        if (speed == 2) zSpeed = 20;
+        if (speed == 3) zSpeed = 30;
+        if (speed == 4) zSpeed = 40;
+        if (speed == 5) zSpeed = 50;
+        if (speed == 6) zSpeed = 60;
+        if (speed == 7) zSpeed = 70;
+        if (speed == 8) zSpeed = 80;
+        if (speed == 9) zSpeed = 90;
         rBody.velocity = new Vector3(0, 0, zSpeed);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        if (Input.GetKey("0")) speed = 0;
-        if (Input.GetKey("1")) speed = 10;
-        if (Input.GetKey("2")) speed = 20;
-        if (Input.GetKey("3")) speed = 30;
-        if (Input.GetKey("4")) speed = 40;
-        if (Input.GetKey("5")) speed = 50;
-        if (Input.GetKey("6")) speed = 60;
-        if (Input.GetKey("7")) speed = 70;
-        if (Input.GetKey("8")) speed = 80;
-        if (Input.GetKey("9")) speed = 90;
+        if (Input.GetKey("0")) currentSpeed = 0;
+        if (Input.GetKey("1")) currentSpeed = 1;
+        if (Input.GetKey("2")) currentSpeed = 2;
+        if (Input.GetKey("3")) currentSpeed = 3;
+        if (Input.GetKey("4")) currentSpeed = 4;
+        if (Input.GetKey("5")) currentSpeed = 5;
+        if (Input.GetKey("6")) currentSpeed = 6;
+        if (Input.GetKey("7")) currentSpeed = 7;
+        if (Input.GetKey("8")) currentSpeed = 8;
+        if (Input.GetKey("9")) currentSpeed = 9;
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
-        discreteActions[0] = speed;
+        discreteActions[0] = currentSpeed;
     }
 
     private void OnTriggerEnter(Collider other) 
