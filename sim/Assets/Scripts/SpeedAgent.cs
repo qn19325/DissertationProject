@@ -11,6 +11,7 @@ public class SpeedAgent : Agent
     Rigidbody rBody;
     public int currentSpeed = 0;
     public SpawnManager spawnManager;
+    public bool increaseReady = true;
 
     void Start() 
     {
@@ -47,16 +48,21 @@ public class SpeedAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        if (Input.GetKey("0")) currentSpeed = 0;
-        if (Input.GetKey("1")) currentSpeed = 1;
-        if (Input.GetKey("2")) currentSpeed = 2;
-        if (Input.GetKey("3")) currentSpeed = 3;
-        if (Input.GetKey("4")) currentSpeed = 4;
-        if (Input.GetKey("5")) currentSpeed = 5;
-        if (Input.GetKey("6")) currentSpeed = 6;
-        if (Input.GetKey("7")) currentSpeed = 7;
-        if (Input.GetKey("8")) currentSpeed = 8;
-        if (Input.GetKey("9")) currentSpeed = 9;
+        // if (Input.GetKey("0")) currentSpeed = 0;
+        // if (Input.GetKey("1")) currentSpeed = 1;
+        // if (Input.GetKey("2")) currentSpeed = 2;
+        // if (Input.GetKey("3")) currentSpeed = 3;
+        // if (Input.GetKey("4")) currentSpeed = 4;
+        // if (Input.GetKey("5")) currentSpeed = 5;
+        // if (Input.GetKey("6")) currentSpeed = 6;
+        // if (Input.GetKey("7")) currentSpeed = 7;
+        // if (Input.GetKey("8")) currentSpeed = 8;
+        // if (Input.GetKey("9")) currentSpeed = 9;
+        if (increaseReady)
+        {
+            increaseReady = false;
+            StartCoroutine(WaitAndIncrease());
+        }
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
         discreteActions[0] = currentSpeed;
     }
@@ -64,5 +70,12 @@ public class SpeedAgent : Agent
     private void OnTriggerEnter(Collider other) 
     {
         spawnManager.SpawnTriggeredEntered();
+    }
+    public IEnumerator WaitAndIncrease()
+    {
+        yield return new WaitForSecondsRealtime(5);
+        currentSpeed += 1;
+        increaseReady = true;
+
     }
 }
