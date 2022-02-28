@@ -43,6 +43,7 @@ public class SpeedAgent : Agent
         if (speed == 7) zSpeed = 70;
         if (speed == 8) zSpeed = 80;
         if (speed == 9) zSpeed = 90;
+        if (speed == 10) zSpeed = 100;
         rBody.velocity = new Vector3(0, 0, zSpeed);
     }
 
@@ -74,7 +75,8 @@ public class SpeedAgent : Agent
     public IEnumerator WaitAndIncrease()
     {
         yield return new WaitForSecondsRealtime(5);
-        currentSpeed += 1;
+        if (currentSpeed < 10) currentSpeed += 1;
+        else currentSpeed = 0;
         increaseReady = true;
 
     }
