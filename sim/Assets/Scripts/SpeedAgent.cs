@@ -33,37 +33,37 @@ public class SpeedAgent : Agent
     {
         int speed = actions.DiscreteActions[0];
         int zSpeed = 0;
-        if (speed == 0) zSpeed = 0;
-        if (speed == 1) zSpeed = 10;
-        if (speed == 2) zSpeed = 20;
-        if (speed == 3) zSpeed = 30;
-        if (speed == 4) zSpeed = 40;
-        if (speed == 5) zSpeed = 50;
-        if (speed == 6) zSpeed = 60;
-        if (speed == 7) zSpeed = 70;
-        if (speed == 8) zSpeed = 80;
-        if (speed == 9) zSpeed = 90;
-        if (speed == 10) zSpeed = 100;
-        rBody.velocity = new Vector3(0, 0, zSpeed);
-    }
-
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        // if (Input.GetKey("0")) currentSpeed = 0;
-        // if (Input.GetKey("1")) currentSpeed = 1;
-        // if (Input.GetKey("2")) currentSpeed = 2;
-        // if (Input.GetKey("3")) currentSpeed = 3;
-        // if (Input.GetKey("4")) currentSpeed = 4;
-        // if (Input.GetKey("5")) currentSpeed = 5;
-        // if (Input.GetKey("6")) currentSpeed = 6;
-        // if (Input.GetKey("7")) currentSpeed = 7;
-        // if (Input.GetKey("8")) currentSpeed = 8;
-        // if (Input.GetKey("9")) currentSpeed = 9;
         if (increaseReady)
         {
             increaseReady = false;
             StartCoroutine(WaitAndIncrease());
+            if (currentSpeed == 0) zSpeed = 0;
+            if (currentSpeed == 1) zSpeed = 10;
+            if (currentSpeed == 2) zSpeed = 20;
+            if (currentSpeed == 3) zSpeed = 30;
+            if (currentSpeed == 4) zSpeed = 40;
+            if (currentSpeed == 5) zSpeed = 50;
+            if (currentSpeed == 6) zSpeed = 60;
+            if (currentSpeed == 7) zSpeed = 70;
+            if (currentSpeed == 8) zSpeed = 80;
+            if (currentSpeed == 9) zSpeed = 90;
+            if (currentSpeed == 10) zSpeed = 100;
+            rBody.velocity = new Vector3(0, 0, zSpeed);
         }
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        if (Input.GetKey("0")) currentSpeed = 0;
+        if (Input.GetKey("1")) currentSpeed = 1;
+        if (Input.GetKey("2")) currentSpeed = 2;
+        if (Input.GetKey("3")) currentSpeed = 3;
+        if (Input.GetKey("4")) currentSpeed = 4;
+        if (Input.GetKey("5")) currentSpeed = 5;
+        if (Input.GetKey("6")) currentSpeed = 6;
+        if (Input.GetKey("7")) currentSpeed = 7;
+        if (Input.GetKey("8")) currentSpeed = 8;
+        if (Input.GetKey("9")) currentSpeed = 9;
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
         discreteActions[0] = currentSpeed;
     }
@@ -75,9 +75,11 @@ public class SpeedAgent : Agent
     public IEnumerator WaitAndIncrease()
     {
         yield return new WaitForSecondsRealtime(5);
-        if (currentSpeed < 10) currentSpeed += 1;
+        if (currentSpeed < 10) 
+        {
+            currentSpeed += 1;
+        }
         else currentSpeed = 0;
         increaseReady = true;
-
     }
 }
