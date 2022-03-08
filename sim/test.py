@@ -66,8 +66,8 @@ for x in range(len(actualData)):
         new_image.save(str(x) + '.png')
 
 
-# with open('data.npy', 'wb') as f:
-#         np.save(f, actualData, allow_pickle=True)
-# with open('data.npy', 'rb') as f:
-#         a = np.load(f, allow_pickle=True)
-#         print(a)
+with open('data.npy', 'wb') as f:
+        np.save(f, actualData, allow_pickle=True)
+with open('data.npy', 'rb') as f:
+        a = np.load(f, allow_pickle=True)
+        print(a)
