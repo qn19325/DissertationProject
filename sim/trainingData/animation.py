@@ -5,7 +5,7 @@ import numpy as np
 
 imgs = []
 
-for i in range(33):
+for i in range(252):
     image = Image.open(str(i) + '.png')
     pixels = list(image.getdata())
     array = np.array(pixels)
@@ -14,20 +14,17 @@ for i in range(33):
 
 fig, ax = plt.subplots()
 
-def f(x, y):
-    return np.sin(x) + np.cos(y)
-
 x = np.linspace(0, 64)
 y = np.linspace(0, 64).reshape(-1, 1)
 
 ims = []
-for i in range(33):
+for i in range(252):
     im = ax.imshow(imgs[i], animated=True)
     if i == 0:
         ax.imshow(imgs[0])  # show an initial one first
     ims.append([im])
 
-ani = animation.ArtistAnimation(fig, ims, interval=500, blit=True,
+ani = animation.ArtistAnimation(fig, ims, interval=250, blit=True,
                                 repeat_delay=1000)
 
 ani.save("movie.mp4")
