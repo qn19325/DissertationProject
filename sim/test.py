@@ -35,3 +35,4 @@ with open('data.npy', 'wb') as f:
 with open('data.npy', 'rb') as f:
         a = np.load(f, allow_pickle=True)
         print(a)
+
