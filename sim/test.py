@@ -19,13 +19,14 @@ for _ in range(253):
 
 for x in range(len(myData)):
         pixels = []
+        speed = myData[x][1] / 10
         for i in range(64):
                 row = myData[x][0][i].flatten()
                 pixels.append(row)
                 index = myData[x][1]
         array = np.array(pixels, dtype=np.uint8)
         new_image = Image.fromarray(array)
-        new_image.save('training/' + str(x) + '.png')
+        new_image.save('trainingData/' + str(round(speed)) + '/' + str(x) + '.png')
 
 with open('data.csv', 'w', newline='') as file:
         for i in range(len(myData)):
