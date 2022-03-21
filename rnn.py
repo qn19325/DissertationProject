@@ -46,10 +46,9 @@ n_total_steps = len(train_loader)
 for epoch in range(num_epochs):
     for i, (images, labels) in enumerate(train_loader):
         images = images.reshape(-1, sequence_length, input_size).to(device)
-        labels = labels.to(device)
+        labels = (labels.float()).to(device)
         # Forward pass
         outputs = model(images)
-        labels = labels.float()
         loss = criterion(outputs, labels)
         
         # Backward and optimize
