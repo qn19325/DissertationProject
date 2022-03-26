@@ -9,7 +9,7 @@ import torch.utils.data as load
 device = 'cpu'
 
 num_epochs = 10
-batch_size = 4
+batch_size = 8
 learning_rate = 0.005
 input_size = 4096
 output_size = 1
@@ -32,7 +32,7 @@ class RNN(nn.Module):
     def forward(self, x):
         h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(device) 
         out, _ = self.rnn(x, h0)  
-        out = out[:, -1]
+        # out = out[:, -1]
         out = self.fc(out)
         return out
 
@@ -46,10 +46,11 @@ n_total_steps = len(train_loader)
 for epoch in range(num_epochs):
     for i, (images, labels) in enumerate(train_loader):
         images = images.reshape(-1, sequence_length, input_size).to(device)
+        print(images.shape)
         labels = (labels.float()).to(device)
         # Forward pass
         outputs = model(images)
-        loss = criterion(outputs, labels)
+        loss = criterion(outputs[:,-1], labels)
         
         # Backward and optimize
         optimizer.zero_grad()
