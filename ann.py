@@ -51,15 +51,17 @@ criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 for epoch in range(num_epochs):
+    correct = 0 
     for i, (images,labels) in enumerate(dataloader):
         labels = (labels.float())
         # Forward pass
         outputs = model(images)
-        loss = criterion(outputs, labels)
+        loss = criterion(outputs[:,-1], labels)
         
         # Backward and optimize
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-
-    print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+        correct += (outputs == labels).float().sum()
+    accuracy = 100 * correct / len(dataloader)
+    print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Accuracy = {accuracy}')

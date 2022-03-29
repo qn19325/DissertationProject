@@ -2,24 +2,22 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 import torchvision
-import torchvision.transforms as transforms
 import pandas as pd
-import os
-import matplotlib.pyplot as plt
 import numpy as np
-import random
 
 class ImageDataLoader(Dataset):
     def __init__(self, dir_=None):
-        self.data_df = pd.read_csv('gdrive/MyDrive/data.csv')
+        self.data_df = pd.read_csv('data.csv')
         self.dataset_len = len(self.data_df) # read the number of len of your csv files
     def __getitem__(self, idx):
         # load the next image
         f_name_t = self.data_df['Filename'][idx]
         f_name_tp1 = self.data_df['Filename'][idx+1]
         label = self.data_df['Label'][idx]
-        img_t = torchvision.io.read_image('gdrive/MyDrive/trainingData/{}'.format(f_name_t))
-        img_tp1 = torchvision.io.read_image('gdrive/MyDrive/trainingData/{}'.format(f_name_tp1))
+        label = label.astype(np.float32) 
+        label = np.true_divide(label, 10)
+        img_t = torchvision.io.read_image('trainingData/{}'.format(f_name_t))
+        img_tp1 = torchvision.io.read_image('trainingData/{}'.format(f_name_tp1))
         img_t = img_t.float().div_(255.0)
         img_tp1 = img_tp1.float().div_(255.0)
         return img_t, img_tp1, label
@@ -64,8 +62,7 @@ class RNN(nn.Module):
         
     def forward(self, x):
         h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size)
-        out, _ = self.rnn(x, h0)  
-        # out = out[:, -1]
+        out, _ = self.rnn(x, h0)
         out = self.fc(out)
         return out
 
@@ -76,22 +73,27 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 n_total_steps = len(dataloader)
 for epoch in range(num_epochs):
+    runningLoss = 0
     for i, (image1, image2, label) in enumerate(dataloader):
-        image1, image2, label = next(iter(dataloader))
-        output = encoder(image1)
-        output1 = encoder(image2)
-        output = output.reshape(8,1,-1)
-        output1 = output1.reshape(8,1,-1)
-        seq = torch.cat((output, output1), dim=1)
+        output1 = encoder(image1)
+        output2 = encoder(image2)
+        batch_size1 = len(output1)
+        batch_size2 = len(output2)
+        output1 = output1.reshape(batch_size1,1,-1)
+        output2 = output2.reshape(batch_size2,1,-1)
+        seq = torch.cat((output1, output2), dim=1)
         label = (label.float())
 
         # Forward pass
         outputs = model(seq)
-        loss = criterion(outputs[:,-1], label)
+        # print(outputs[:,-1].squeeze())
+        # print(label)
+        loss = criterion(outputs[:,-1].squeeze(), label)
         
         # Backward and optimize
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        if (i+1) % 10 == 0:
-            print (f'Epoch [{epoch+1}/{num_epochs}] | Step [{i+1}/{n_total_steps}] | Loss: {loss.item():.4f}')
+        runningLoss += loss
+        print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+    print (f'Epoch [{epoch+1}/{num_epochs}] | Loss: {runningLoss}')

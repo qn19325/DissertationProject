@@ -46,7 +46,7 @@ randomBatch = random.randrange(0,len(imagesList))
 print('Batch:', randomBatch)
 imshow(torchvision.utils.make_grid(imagesList[randomBatch]))
 
-num_epochs = 10
+num_epochs = 100
 learning_rate = 0.001
 input_size = 4096
 output_size = 1
@@ -82,15 +82,17 @@ def get_accuracy(logit, target, batch_size):
 
 n_total_steps = len(dataloader)
 for epoch in range(num_epochs):
+    correct = 0
     for i, (images, labels) in enumerate(dataloader):
         labels = (labels.float()).to(device)
         # Forward pass
         outputs = model(images)
-        loss = criterion(outputs[:,-1], labels)
-        
+        loss = criterion(outputs[:,-1].flatten(), labels)
+        print(labels)
         # Backward and optimize
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        if (i+1) % 10 == 0:
-            print (f'Epoch [{epoch+1}/{num_epochs}] | Step [{i+1}/{n_total_steps}] | Loss: {loss.item():.4f}')
+        correct += (outputs == labels).float().sum()
+    accuracy = 100 * correct / len(dataloader)
+    print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Accuracy = {accuracy}')
