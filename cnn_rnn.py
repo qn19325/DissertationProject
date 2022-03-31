@@ -44,29 +44,38 @@ class Encoder(nn.Module):
 
 encoder = Encoder()
 
-num_epochs = 10
+batch_size = 8
+num_epochs = 100
 learning_rate = 0.001
 input_size = 131072
 output_size = 1
 sequence_length = 2
-hidden_size = 128
-num_layers = 2
+hidden_size = 256
+num_layers = 28
 
 class RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, output_size):
+    def __init__(self, batch_size, input_size, hidden_size, num_layers, output_size):
         super(RNN, self).__init__()
+        self.batch_size = batch_size
+        self.input_size = input_size
         self.num_layers = num_layers
         self.hidden_size = hidden_size
-        self.rnn = nn.RNN(input_size, hidden_size, num_layers, batch_first=True)
-        self.fc = nn.Linear(hidden_size, output_size)
-        
+        self.output_size = output_size
+
+        self.rnn = nn.RNN(self.input_size, self.hidden_size, num_layers, batch_first=True)
+        self.fc = nn.Linear(self.hidden_size, self.output_size)
+
+    def init_hidden(self):
+        return (torch.zeros(self.num_layers, self.batch_size, self.hidden_size))
+
     def forward(self, x):
-        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size)
-        out, _ = self.rnn(x, h0)
+        self.batch_size = x.size(0)
+        self.hidden = self.init_hidden()
+        out, self.hidden = self.rnn(x, self.hidden)
         out = self.fc(out)
         return out
 
-model = RNN(input_size, hidden_size, num_layers, output_size)
+model = RNN(batch_size=batch_size, input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, output_size=output_size)
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -86,14 +95,12 @@ for epoch in range(num_epochs):
 
         # Forward pass
         outputs = model(seq)
-        # print(outputs[:,-1].squeeze())
-        # print(label)
         loss = criterion(outputs[:,-1].squeeze(), label)
-        
+        print(outputs[:,-1].squeeze())
+        print(label)
         # Backward and optimize
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         runningLoss += loss
         print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
-    print (f'Epoch [{epoch+1}/{num_epochs}] | Loss: {runningLoss}')

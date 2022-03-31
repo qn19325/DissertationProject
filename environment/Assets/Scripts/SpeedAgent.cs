@@ -38,16 +38,16 @@ public class SpeedAgent : Agent
             increaseReady = false;
             StartCoroutine(WaitAndIncrease());
             if (currentSpeed == 0) zSpeed = 0;
-            if (currentSpeed == 1) zSpeed = 10;
-            if (currentSpeed == 2) zSpeed = 20;
-            if (currentSpeed == 3) zSpeed = 30;
-            if (currentSpeed == 4) zSpeed = 40;
-            if (currentSpeed == 5) zSpeed = 50;
-            if (currentSpeed == 6) zSpeed = 60;
-            if (currentSpeed == 7) zSpeed = 70;
-            if (currentSpeed == 8) zSpeed = 80;
-            if (currentSpeed == 9) zSpeed = 90;
-            if (currentSpeed == 10) zSpeed = 100;
+            if (currentSpeed == 1) zSpeed = 2;
+            if (currentSpeed == 2) zSpeed = 4;
+            if (currentSpeed == 3) zSpeed = 6;
+            if (currentSpeed == 4) zSpeed = 8;
+            if (currentSpeed == 5) zSpeed = 10;
+            if (currentSpeed == 6) zSpeed = 12;
+            if (currentSpeed == 7) zSpeed = 14;
+            if (currentSpeed == 8) zSpeed = 16;
+            if (currentSpeed == 9) zSpeed = 18;
+            if (currentSpeed == 10) zSpeed = 20;
             rBody.velocity = new Vector3(0, 0, zSpeed);
         }
     }
