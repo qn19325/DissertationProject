@@ -3,8 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 [Vv]env/
-[Ee]nvs1/
-[Ee]nvs2/
+[Ee]nvs/
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -15,7 +14,6 @@
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
-[Aa]ssets/Brackeys/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
