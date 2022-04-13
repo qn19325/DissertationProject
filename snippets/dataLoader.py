@@ -33,5 +33,9 @@ class SequentialImageDataLoader(Dataset):
         img_tp1 = img_tp1.float().div_(255.0) # normalize pixel values
         return img_t, img_tp1, label
     def __len__(self):
+<<<<<<< HEAD
         return self.dataset_len - 1
 
+=======
+        return self.dataset_len - 1
+>>>>>>> 307d554f99ba91ba083fe89d04e313a24f36ebd2

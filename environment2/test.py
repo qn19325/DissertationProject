@@ -5,7 +5,11 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import csv
 
+<<<<<<< HEAD
 unity_env = UnityEnvironment("./envs/NativeResolution", no_graphics=False)
+=======
+unity_env = UnityEnvironment("./envs2/64x64", no_graphics=False)
+>>>>>>> 307d554f99ba91ba083fe89d04e313a24f36ebd2
 env = UnityToGymWrapper(unity_env, uint8_visual=True, allow_multiple_obs=True)
 env.reset()
 myData = []
