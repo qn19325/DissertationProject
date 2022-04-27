@@ -5,12 +5,12 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import csv
 
-unity_env = UnityEnvironment("./envs/vertical_64x64_4", no_graphics=False)
+unity_env = UnityEnvironment("./envs/64x64", no_graphics=False)
 env = UnityToGymWrapper(unity_env, uint8_visual=True, allow_multiple_obs=True)
 env.reset()
 myData = []
 index = 0
-for _ in range(500):
+for _ in range(1003):
         action = env.action_space.sample()
         obs, reward, done, info = env.step(np.abs(2*action))
         arrayObs = np.array(obs[0])

@@ -31,6 +31,12 @@ class SequentialImageDataLoader(Dataset):
         img_tp1 = torchvision.io.read_image('training/{}'.format(f_name_tp1))
         img_t = img_t.float().div_(255.0) # normalize pixel values
         img_tp1 = img_tp1.float().div_(255.0) # normalize pixel values
+        # invert pixel values
+        img_t = 1 - img_t
+        img_tp1 = 1 - img_tp1
+        # crop image
+        img_t = torchvision.transforms.functional.crop(img_t, 0, 0, 32, 64)
+        img_tp1 = torchvision.transforms.functional.crop(img_tp1, 0, 0, 32, 64)
         return img_t, img_tp1, label
     def __len__(self):
 <<<<<<< HEAD

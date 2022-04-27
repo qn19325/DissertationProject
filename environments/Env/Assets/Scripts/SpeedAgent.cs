@@ -36,8 +36,8 @@ public class SpeedAgent : Agent
         if (increaseReady)
         {
             increaseReady = false;
-            currentSpeed = 2;
-            // StartCoroutine(WaitAndIncrease());
+            zSpeed = 0;
+            StartCoroutine(WaitAndIncrease());
             if (currentSpeed == 0) zSpeed = 0;
             if (currentSpeed == 1) zSpeed = 2;
             if (currentSpeed == 2) zSpeed = 4;
